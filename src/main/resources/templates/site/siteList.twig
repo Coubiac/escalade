@@ -1,0 +1,71 @@
+{% extends "classpath:/templates/utils/baseTemplate.twig" %}
+{% block titre %}Liste des sites{% endblock %}
+{% block content %}
+<h1>Liste des sites</h1>
+
+    <table class="table">
+      <thead>
+      <tr>
+        <th>nom</th>
+        <th>voir</th>
+        <th>modifier</th>
+        <th>Supprimer</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for site in sites %}
+        <tr>
+          <td>{{ site.name }}</td>
+          <!-- On crée un bouton et on bind les attributs pour pouvoir les récupérer dans le javascript -->
+          <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"
+                      data-siteid="{{ site.id }}"
+                      data-name="{{ site.name }}"
+                      data-description="{{ site.description }} "
+                      data-creation="{{ site.createdAt }}"
+                      data-modification="{{ site.updatedAt }}">Voir</button></td>
+          <td><a href="/siteItemForm?id={{ site.id }}" class="btn btn-primary">modifier</a></td>
+          <td><a href="/siteDelete?id={{ site.id }}" class="btn btn-danger">supprimer</a></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">nom du site</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p><span class="createdAt small text-left"></span> <span class="updatedAt small text-right"></span></p>
+            <div class="description"></div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+            <a href="/siteItemForm?id={{ site.id }}" class="btn btn-primary modifier">modifier</a>
+          </div>
+        </div>
+      </div>
+    </div><!-- fin modale -->
+{% endblock %}
+{% block customScripts %}
+  <!-- debut script pour modale -->
+  <script>
+    $('#myModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget); // Bouton qui a ouvert la modale
+      // On récupère les valeurs data et on les envoie dans les class que l'on veut
+      $(this).find('.createdAt').text('Créé le: ' + button.data('creation'));
+      $(this).find('.updatedAt').text('Modifié le: ' + button.data('modification'));
+      $(this).find('.modal-title').text(button.data('name'));
+      $(this).find('.description').text(button.data('description'));
+      $(this).find('.modifier').attr("href", "/siteItemForm?id=" + button.data('siteid'))
+    })
+  </script>
+  <!-- Fin script pour modale -->
+{% endblock %}
+
+
