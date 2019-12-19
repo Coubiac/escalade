@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -18,12 +19,13 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 
 @Controller
+@RequestMapping("/site")
 public class SiteController {
 
     @Resource
     SiteRepository siteRepository;
 
-    @GetMapping("/")
+    @GetMapping("/list")
     public ModelAndView getSiteList() {
 
         String viewName= "site/siteList";
