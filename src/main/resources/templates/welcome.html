@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:data="http://www.w3.org/1999/xhtml" lang="fr">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:data="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="fr">
 <head >
   <title>Application escalade</title>
   <!-- Required meta tags -->
@@ -16,6 +17,8 @@
   <div th:insert="~{utils/menu :: menu}"></div>
 
   <h1>Bienvenue sur l'application d'escalade</h1>
+  Logged user: <span sec:authentication="name">Bob</span>
+  Roles: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>
 </div>
 
 </body>

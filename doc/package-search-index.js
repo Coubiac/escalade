@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"com.begr.escalade"},{"l":"com.begr.escalade.config"},{"l":"com.begr.escalade.controller"},{"l":"com.begr.escalade.entity"},{"l":"com.begr.escalade.repository"},{"l":"com.begr.escalade.service"},{"l":"com.begr.escalade.validator"}]

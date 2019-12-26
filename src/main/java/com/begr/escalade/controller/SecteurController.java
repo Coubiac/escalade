@@ -1,15 +1,14 @@
 package com.begr.escalade.controller;
 
 import com.begr.escalade.entity.Secteur;
-import com.begr.escalade.entity.Site;
 import com.begr.escalade.repository.SecteurRepository;
 import com.begr.escalade.repository.SiteRepository;
-import org.springframework.security.access.annotation.Secured;
+
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.annotation.Resource;
@@ -28,7 +27,6 @@ public class SecteurController {
     SiteRepository siteRepository;
 
     //affichage du formulaire
-    @Secured("ROLE_UTILISATEUR")
     @GetMapping("/secteurItemForm")
     public String showSecteurItemForm(@RequestParam(required = false) Integer id, Model theModel) {
         String viewName= "secteur/secteurItemForm";
@@ -46,6 +44,7 @@ public class SecteurController {
     }
 
     //Traitement du formulaire
+
     @RequestMapping(value="/SubmitSecteurForm", method = RequestMethod.POST)
     public String SubmitSecteurForm(@Valid Secteur theSecteur, BindingResult theBindingResult, Model model) {
         if( theBindingResult.hasErrors()){
@@ -61,6 +60,7 @@ public class SecteurController {
     }
 
     //Affichage de la liste des secteurs d'un site
+    @PreAuthorize("hasAuthority('MEMBER')")
     @RequestMapping(value="/list", method = RequestMethod.GET)
     public String ShowSecteursOfOneSite(@RequestParam(required = false) Long siteId, Model model){
         if (siteId != null){

@@ -1,0 +1,7 @@
+com.begr.escalade
+com.begr.escalade.config
+com.begr.escalade.controller
+com.begr.escalade.entity
+com.begr.escalade.repository
+com.begr.escalade.service
+com.begr.escalade.validator
