@@ -15,7 +15,7 @@
 <div class="container">
   <div th:insert="~{utils/menu :: menu}"></div>
 
-  <h1>Liste des secteurs</h1>
+  <h1>Liste des sites</h1>
   <table class="table">
     <thead>
     <tr>
@@ -27,17 +27,17 @@
     </thead>
     <tbody>
 
-    <tr th:each="secteur: ${secteurs}">
-      <td th:text="${secteur.name}"></td>
+    <tr th:each="site: ${sites}">
+      <td th:text="${site.name}"></td>
       <!-- On crée un bouton et on bind les attributs pour pouvoir les récupérer dans le javascript -->
       <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"
-                  th:attr="data-secteurid=${secteur.id},
-                           data-name=${secteur.name},
-                           data-description=${secteur.description},
-                           data-creation=${secteur.createdAt},
-                           data-modification=${secteur.updatedAt}">Voir</button></td>
-      <td><a th:href="@{/secteur/secteurItemForm(id=${secteur.id })}" class="btn btn-primary">modifier</a></td>
-      <td><a th:href="@{/secteur/secteurDelete(id=${secteur.id })}" class="btn btn-danger">supprimer</a></td>
+                  th:attr="data-siteid=${site.id},
+                           data-name=${site.name},
+                           data-description=${site.description},
+                           data-creation=${site.createdAt},
+                           data-modification=${site.updatedAt}">Voir</button></td>
+      <td><a th:href="@{/site/siteItemForm(id=${site.id })}" class="btn btn-primary">modifier</a></td>
+      <td><a th:href="@{/site/siteDelete(id=${site.id })}" class="btn btn-danger">supprimer</a></td>
     </tr>
 
     </tbody>
@@ -47,7 +47,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">nom du secteur</h5>
+          <h5 class="modal-title" id="exampleModalLabel">nom du site</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -83,7 +83,7 @@
     $(this).find('.updatedAt').text('Modifié le: ' + button.data('modification'));
     $(this).find('.modal-title').text(button.data('name'));
     $(this).find('.description').text(button.data('description'));
-    $(this).find('.modifier').attr("href", "/secteurItemForm?id=" + button.data('secteurid'))
+    $(this).find('.modifier').attr("href", "/site/siteItemForm?id=" + button.data('siteid'))
   })
 </script>
 

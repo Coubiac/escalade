@@ -60,7 +60,7 @@ public class SecteurController {
     }
 
     //Affichage de la liste des secteurs d'un site
-    @PreAuthorize("hasAuthority('MEMBER')")
+    @PreAuthorize("hasAuthority('USER')")
     @RequestMapping(value="/list", method = RequestMethod.GET)
     public String ShowSecteursOfOneSite(@RequestParam(required = false) Long siteId, Model model){
         if (siteId != null){

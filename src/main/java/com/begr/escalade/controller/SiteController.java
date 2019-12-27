@@ -77,7 +77,7 @@ public class SiteController {
             siteRepository.save(site);
         }
         RedirectView redirect = new RedirectView();
-        redirect.setUrl("/site");
+        redirect.setUrl("/site/list");
         return new ModelAndView(redirect);
     }
 
