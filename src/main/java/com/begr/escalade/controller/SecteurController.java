@@ -45,8 +45,10 @@ public class SecteurController {
 
     //Traitement du formulaire
 
-    @RequestMapping(value="/SubmitSecteurForm", method = RequestMethod.POST)
-    public String SubmitSecteurForm(@Valid Secteur theSecteur, BindingResult theBindingResult, Model model) {
+    @PostMapping(value="/SubmitSecteurForm")
+    public String submitSecteurForm(@Valid Secteur theSecteur, BindingResult theBindingResult, Model model) {
+        System.out.println("Secteur: " + theSecteur.toString());
+        System.out.println("erreurs: " + theBindingResult.getAllErrors());
         if( theBindingResult.hasErrors()){
             model.addAttribute("errors", theBindingResult.getAllErrors());
             return "secteur/secteurItemForm";
@@ -61,8 +63,8 @@ public class SecteurController {
 
     //Affichage de la liste des secteurs d'un site
     @PreAuthorize("hasAuthority('USER')")
-    @RequestMapping(value="/list", method = RequestMethod.GET)
-    public String ShowSecteursOfOneSite(@RequestParam(required = false) Long siteId, Model model){
+    @GetMapping(value="/list")
+    public String showSecteursOfOneSite(@RequestParam(required = false) Long siteId, Model model){
         if (siteId != null){
             List<Secteur> secteurs = secteurRepository.findAllBySiteId(siteId);
             model.addAttribute("secteurs", secteurs);

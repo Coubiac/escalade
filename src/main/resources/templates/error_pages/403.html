@@ -1,1 +1,23 @@
-<h1>L'accès à cette page est interdit !</h1>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:data="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="fr">
+<head >
+  <title>Application escalade</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <!--/* Per-page placeholder for additional links */-->
+
+
+</head>
+<body>
+<div class="container">
+  <div th:insert="~{utils/menu :: menu}"></div>
+
+<h1> L'accès à cette page est interdit</h1>
+</div>
+<span th:insert="~{utils/scripts :: scripts}"></span>
+</body>
+</html>

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,6 +40,7 @@ public class SiteController {
     }
 
     //affichage du formulaire
+    @PreAuthorize("hasAuthority('MEMBER')")
     @GetMapping("/siteItemForm")
     public ModelAndView showSiteItemForm(@RequestParam(required = false) Integer id) {
         String viewName= "site/siteItemForm";
