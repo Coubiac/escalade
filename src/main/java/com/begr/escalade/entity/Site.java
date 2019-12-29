@@ -1,6 +1,9 @@
 package com.begr.escalade.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import org.hibernate.search.annotations.*;
+import org.hibernate.search.annotations.Index;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -12,15 +15,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 
 @Entity
+@Indexed
 @Table(name = "sites")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
         allowGetters = true)
-public class Site implements Serializable {
+public class Site implements Serializable{
     /**
      *
      */
@@ -32,24 +35,31 @@ public class Site implements Serializable {
 
     @NotBlank
     @Size(min = 4, max = 50)
+    @Field(index=Index.YES, analyze= Analyze.YES, store= Store.NO)
     private String name;
 
     @NotBlank
     @Size(min = 4, max = 250)
+    @Field(index=Index.YES, analyze= Analyze.YES, store= Store.NO)
     private String description;
 
     @OneToMany(mappedBy = "site")
+    @IndexedEmbedded
     private List<Secteur> secteurs = new ArrayList<>();
 
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
+    @Field(index = Index.YES, analyze=Analyze.NO, store = Store.YES)
+    @DateBridge(resolution = Resolution.DAY)
     private Date createdAt;
 
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
+    @Field(index = Index.YES, analyze=Analyze.NO, store = Store.YES)
+    @DateBridge(resolution = Resolution.DAY)
     private Date updatedAt;
 
     public Long getId() {

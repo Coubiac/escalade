@@ -6,10 +6,7 @@ import java.util.Map;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -26,6 +23,8 @@ public class SiteController {
     @Resource
     SiteRepository siteRepository;
 
+
+
     @GetMapping("/list")
     public ModelAndView getSiteList() {
 
@@ -40,7 +39,7 @@ public class SiteController {
     }
 
     //affichage du formulaire
-    @PreAuthorize("hasAuthority('MEMBER')")
+    @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/siteItemForm")
     public ModelAndView showSiteItemForm(@RequestParam(required = false) Integer id) {
         String viewName= "site/siteItemForm";
@@ -90,5 +89,26 @@ public class SiteController {
         redirect.setUrl("/");
         return new ModelAndView(redirect);
     }
+
+    @GetMapping("/find")
+    public ModelAndView findSite(@RequestParam(required = false, value = "searchQuery") String searchQuery){
+        String viewName= "site/siteList";
+
+        if(searchQuery.equals("")){
+            System.out.println("inside if");
+            RedirectView redirect = new RedirectView();
+            redirect.setUrl("/site/list");
+        }
+        List<Site> sites = siteRepository.findFulltext(searchQuery);
+
+        Map<String,Object> model = new HashMap<String,Object>();
+        model.put("sites", sites);
+        model.put("numberOfSites", sites.size());
+
+        return new ModelAndView(viewName,model);
+
+    }
+
+
 
 }

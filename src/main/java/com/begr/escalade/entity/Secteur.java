@@ -2,6 +2,8 @@ package com.begr.escalade.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.search.annotations.*;
+import org.hibernate.search.annotations.Index;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -13,6 +15,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "secteurs")
+@Indexed
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
         allowGetters = true)
@@ -28,14 +31,17 @@ public class Secteur {
 
     @NotBlank
     @Size(min = 4, max = 50)
+    @Field(index = Index.YES, analyze= Analyze.YES, store = Store.YES)
     private String name;
 
     @NotBlank
     @Size(min = 4, max = 250)
+    @Field(index = Index.YES, analyze= Analyze.YES, store = Store.YES)
     private String description;
 
     @ManyToOne
     @JoinColumn(name="site_id")
+    @ContainedIn
     private Site site;
 
 
