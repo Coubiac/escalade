@@ -47,8 +47,6 @@ public class SecteurController {
 
     @PostMapping(value="/SubmitSecteurForm")
     public String submitSecteurForm(@Valid Secteur theSecteur, BindingResult theBindingResult, Model model) {
-        System.out.println("Secteur: " + theSecteur.toString());
-        System.out.println("erreurs: " + theBindingResult.getAllErrors());
         if( theBindingResult.hasErrors()){
             model.addAttribute("errors", theBindingResult.getAllErrors());
             return "secteur/secteurItemForm";

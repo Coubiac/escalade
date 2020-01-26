@@ -1,6 +1,5 @@
 package com.begr.escalade.entity;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.lucene.analysis.fr.FrenchAnalyzer;
 import org.hibernate.search.annotations.*;
@@ -12,21 +11,17 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Entity
-@Table(name = "secteurs")
+@Table(name = "longueurs")
 @Indexed
 @Analyzer(impl = FrenchAnalyzer.class)
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
         allowGetters = true)
-public class Secteur {
-    /**
-     *
-     */
+public class Longueur {
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -43,16 +38,16 @@ public class Secteur {
     @Field(index = Index.YES, analyze= Analyze.YES, store = Store.YES)
     private String description;
 
-    private Boolean isEquipped;
 
     @ManyToOne
-    @JoinColumn(name="site_id")
-    @ContainedIn
-    private Site site;
-
-    @OneToMany(mappedBy = "secteur")
+    @JoinColumn(name="cotation_id")
     @IndexedEmbedded
-    private List<Voie> voies = new ArrayList<>();
+    private Cotation cotation;
+
+    @ManyToOne
+    @JoinColumn(name="voie_id")
+    @ContainedIn
+    private Voie voie;
 
 
     @Column(nullable = false, updatable = false)
@@ -65,6 +60,9 @@ public class Secteur {
     @LastModifiedDate
     private Date updatedAt;
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
     public Long getId() {
         return id;
@@ -90,6 +88,22 @@ public class Secteur {
         this.description = description;
     }
 
+    public Cotation getCotation() {
+        return cotation;
+    }
+
+    public void setCotation(Cotation cotation) {
+        this.cotation = cotation;
+    }
+
+    public Voie getVoie() {
+        return voie;
+    }
+
+    public void setVoie(Voie voie) {
+        this.voie = voie;
+    }
+
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -104,42 +118,5 @@ public class Secteur {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public static long getSerialversionuid() {
-        return serialVersionUID;
-    }
-
-    public Site getSite() {
-        return site;
-    }
-
-    public void setSite(Site site) {
-        this.site = site;
-    }
-
-    public Boolean getEquipped() {
-        return isEquipped;
-    }
-
-    public void setEquipped(Boolean equipped) {
-        isEquipped = equipped;
-    }
-
-    public List<Voie> getVoies() {
-        return voies;
-    }
-
-    public void setVoies(List<Voie> voies) {
-        this.voies = voies;
-    }
-
-    @Override
-    public String toString(){
-        return "ID: " + getId() +
-                "\nNAME: " + getName() +
-                "\nDESCRIPTION: " + getDescription() +
-                "\nDATE CREATION: " + getCreatedAt() +
-                "\nDATE MAJ: " + getUpdatedAt();
     }
 }

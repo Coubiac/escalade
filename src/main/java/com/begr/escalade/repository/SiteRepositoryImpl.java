@@ -33,9 +33,19 @@ public class SiteRepositoryImpl implements SiteRepositoryCustom{
 
         QueryBuilder qb = fullTextEntityManager.getSearchFactory()
                 .buildQueryBuilder().forEntity(Site.class).get();
+        logger.debug("RECHERCHE DES MOTS SUIVANTS: " + searchQuery);
         org.apache.lucene.search.Query luceneQuery = qb
                 .keyword()
-                .onFields("name", "description", "secteurs.name", "secteurs.description")
+                .onFields("name",
+                        "description",
+                        "secteurs.name",
+                        "secteurs.description",
+                        "secteurs.voies.name",
+                        "secteurs.voies.description",
+                        "secteurs.voies.cotation.value",
+                        "secteurs.voies.longueurs.name",
+                        "secteurs.voies.longueurs.description",
+                        "secteurs.voies.longueurs.cotation.value")
                 .matching(searchQuery)
                 .createQuery();
 
@@ -43,7 +53,7 @@ public class SiteRepositoryImpl implements SiteRepositoryCustom{
                 fullTextEntityManager.createFullTextQuery(luceneQuery, Site.class);
 
         List result = jpaQuery.getResultList();
-        logger.info("RESULTAT DE RECHERCHE: " + result.toString());
+        logger.debug("RÉSULTAT DE RECHERCHE: " + result.toString());
         return result;
     }
 }

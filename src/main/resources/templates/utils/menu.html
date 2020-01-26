@@ -30,6 +30,8 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="/site/siteItemForm">Site</a>
                     <a class="dropdown-item" href="/secteur/secteurItemForm">Secteur</a>
+                    <a class="dropdown-item" href="/voie/voieItemForm">Voie</a>
+                    <a class="dropdown-item" href="/longueur/longueurItemForm">Longueur</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -39,10 +41,12 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="/site/list">Sites</a>
                     <a class="dropdown-item" href="/secteur/list">Secteurs</a>
+                    <a class="dropdown-item" href="/voie/list">Voies</a>
+                    <a class="dropdown-item" href="/longueur/list">Longueurs</a>
                 </div>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0" th:action="@{/site/find}"  method="get">
+        <form class="form-inline my-2 my-lg-0" th:action="@{/arborescence/find}"  method="get">
             <input class="form-control mr-sm-2" name="searchQuery" type="search" placeholder="Search" aria-label="Search" th:value="*{searchQuery}">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>

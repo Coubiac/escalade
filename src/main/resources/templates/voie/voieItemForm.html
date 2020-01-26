@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:data="http://www.w3.org/1999/xhtml" lang="fr">
+<head >
+  <title>Application escalade</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <!--/* Per-page placeholder for additional links */-->
+
+
+</head>
+<body>
+<div class="container">
+  <div th:insert="~{utils/menu :: menu}"></div>
+  <h2 class = "mt-4">Ajouter un voie</h2>
+
+  <hr/>
+  <form action="#" method="post" th:action="@{/voie/SubmitVoieForm}">
+
+    <div class = "form-group row ">
+      <label for="name" class = "col-sm-2 col-form-label">Nom</label>
+      <div class = "col-sm-4">
+        <input type = "text" class="form-control" placeholder="Obligatoire" name="name" th:field="${voie.name}" >
+      </div>
+      <div class="col-sm-4">
+        <span class="text-danger" th:errors="*{voie.name}"></span>
+      </div>
+    </div>
+    <div class = "form-group row">
+      <label for="description" class="col-sm-2 col-form-label">Description</label>
+      <div class = "col-sm-4">
+        <textarea class = "form-control" rows="3" placeholder="Max. 50 caractères" name="description" th:field="${voie.description}"></textarea>
+      </div>
+      <div class="col-sm-4">
+        <span class="text-danger" th:errors="*{voie.description}"> </span>
+      </div>
+    </div>
+    <div class = "form-group row">
+      <label for = "cotation" class = "col-sm-2 col-form-label">Cotation</label>
+      <div class = "col-sm-4">
+        <select id="cotation" th:field="*{voie.cotation}">
+          <option th:each="cotation : ${cotations}"
+                  th:value="${cotation.id}"
+                  th:text="${cotation.value}">
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class = "form-group row">
+      <label for = "secteur" class = "col-sm-2 col-form-label">Secteur</label>
+      <div class = "col-sm-4">
+        <select class="form-control" th:field="${voie.secteur}"  id="dropOperator">
+          <option value="0">select secteur</option>
+          <option th:each="secteur : ${secteurs}" th:value="${secteur.id}" th:text="${secteur.name}"></option>
+        </select>
+      </div>
+      <div class="col-sm-4">
+        <span class="text-danger" th:errors="*{voie.secteur}"> </span>
+      </div>
+    </div>
+
+    <div class = "form-group row">
+      <div class = "col-sm-10">
+        <input type="hidden" name="id" th:field="${voie.id}">
+        <button type = "submit" class = "btn btn-primary">Enregistrer</button>
+        <a href="/voie/list" class = "btn btn-secondary">Annuler</a>
+      </div>
+    </div>
+
+  </form>
+</div>
+<span th:insert="~{utils/scripts :: scripts}"></span>
+
+</body>
+</html>

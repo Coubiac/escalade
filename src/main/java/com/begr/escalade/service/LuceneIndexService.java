@@ -18,8 +18,9 @@ public class LuceneIndexService {
 
     public void triggerIndexing() {
         try {
+            logger.debug("=====   DEBUT INDEXATION   =====");
             fullTextEntityManager.createIndexer().startAndWait();
-            logger.info("INDEX TERMINÉ");
+            logger.debug("=====   INDEX TERMINÉ   =====");
         } catch (InterruptedException e) {
             logger.warn("INDEX ERREUR");
             throw new RuntimeException(e);

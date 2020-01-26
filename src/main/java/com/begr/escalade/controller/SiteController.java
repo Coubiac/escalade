@@ -94,10 +94,11 @@ public class SiteController {
     public ModelAndView findSite(@RequestParam(required = false, value = "searchQuery") String searchQuery){
         String viewName= "site/siteList";
 
-        if(searchQuery.equals("")){
+        if(searchQuery == null){
             System.out.println("inside if");
             RedirectView redirect = new RedirectView();
             redirect.setUrl("/site/list");
+            return new ModelAndView(redirect);
         }
         List<Site> sites = siteRepository.findFulltext(searchQuery);
 

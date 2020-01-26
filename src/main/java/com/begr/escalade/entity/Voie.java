@@ -1,42 +1,30 @@
 package com.begr.escalade.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
-import org.apache.lucene.analysis.snowball.SnowballPorterFilterFactory;
-import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
+import org.apache.lucene.analysis.fr.FrenchAnalyzer;
 import org.hibernate.search.annotations.*;
 import org.hibernate.search.annotations.Index;
-import org.hibernate.search.annotations.Parameter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 
 @Entity
+@Table(name = "voies")
 @Indexed
-@AnalyzerDef(name = "customanalyzer",
-        tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
-
-        filters = {
-                @TokenFilterDef(factory = LowerCaseFilterFactory.class),
-                @TokenFilterDef(factory = SnowballPorterFilterFactory.class, params = {
-                        @Parameter(name = "language", value = "French")
-                })
-        })
-@Table(name = "sites")
+@Analyzer(impl = FrenchAnalyzer.class)
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
         allowGetters = true)
-public class Site implements Serializable{
+public class Voie {
+
     /**
      *
      */
@@ -48,41 +36,43 @@ public class Site implements Serializable{
 
     @NotBlank
     @Size(min = 4, max = 50)
-    @Field(index=Index.YES, analyze= Analyze.YES, store= Store.NO)
-    @Analyzer(definition = "customanalyzer")
+    @Field(index = Index.YES, analyze= Analyze.YES, store = Store.YES)
     private String name;
 
     @NotBlank
     @Size(min = 4, max = 250)
-    @Field(index=Index.YES, analyze= Analyze.YES, store= Store.NO)
-    @Analyzer(definition = "customanalyzer")
+    @Field(index = Index.YES, analyze= Analyze.YES, store = Store.YES)
     private String description;
 
-    private Double latitude;
-    private Double longitude;
 
-    private String access;
-
-    @OneToMany(mappedBy = "site")
+    @ManyToOne
+    @JoinColumn(name="cotation_id")
+    @ContainedIn
     @IndexedEmbedded
-    private List<Secteur> secteurs = new ArrayList<>();
+    private Cotation cotation;
 
+    @ManyToOne
+    @JoinColumn(name="secteur_id")
+    @ContainedIn
+    private Secteur secteur;
+
+    @OneToMany(mappedBy = "voie")
+    @IndexedEmbedded
+    private List<Longueur> longueurs = new ArrayList<>();
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
-    @Field(index = Index.YES, analyze=Analyze.NO, store = Store.YES)
-    @DateBridge(resolution = Resolution.DAY)
     private Date createdAt;
 
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
-    @Field(index = Index.YES, analyze=Analyze.NO, store = Store.YES)
-    @DateBridge(resolution = Resolution.DAY)
     private Date updatedAt;
 
-
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
     public Long getId() {
         return id;
@@ -108,29 +98,25 @@ public class Site implements Serializable{
         this.description = description;
     }
 
-    public Double getLatitude() {
-        return latitude;
+    public Cotation getCotation() {
+        return cotation;
     }
 
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
+    public void setCotation(Cotation cotation) {
+        this.cotation = cotation;
     }
 
-    public Double getLongitude() {
-        return longitude;
+    public Secteur getSecteur() {
+        return secteur;
     }
 
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
+    public void setSecteur(Secteur secteur) {
+        this.secteur = secteur;
     }
 
-    public String getAccess() {
-        return access;
-    }
+    public List<Longueur> getLongueurs() { return longueurs; }
 
-    public void setAccess(String access) {
-        this.access = access;
-    }
+    public void setLongueurs(List<Longueur> longueurs) { this.longueurs = longueurs; }
 
     public Date getCreatedAt() {
         return createdAt;
@@ -148,27 +134,16 @@ public class Site implements Serializable{
         this.updatedAt = updatedAt;
     }
 
-    public static long getSerialversionuid() {
-        return serialVersionUID;
-    }
-
-    public List<Secteur> getSecteurs() {
-        return secteurs;
-    }
-
-    public void setSecteurs(List<Secteur> secteurs) {
-        this.secteurs = secteurs;
-    }
-    public void addSecteur(Secteur secteur){
-        this.secteurs.add(secteur);
-    }
-
     @Override
     public String toString() {
-        return "Site{" +
+        return "Voie{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
+                ", cotation=" + cotation +
+                ", secteur=" + secteur +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
                 '}';
     }
 }
