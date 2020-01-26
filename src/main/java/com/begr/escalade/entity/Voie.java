@@ -44,6 +44,7 @@ public class Voie {
     @Field(index = Index.YES, analyze= Analyze.YES, store = Store.YES)
     private String description;
 
+    private boolean equiped;
 
     @ManyToOne
     @JoinColumn(name="cotation_id")
@@ -96,6 +97,14 @@ public class Voie {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isEquiped() {
+        return equiped;
+    }
+
+    public void setEquiped(boolean equiped) {
+        this.equiped = equiped;
     }
 
     public Cotation getCotation() {
