@@ -1,31 +1,41 @@
 package com.begr.escalade.entity;
 
+
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "user")
-public class User {
+public class User  {
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String username;
     private String password;
     private String passwordConfirm;
-    private Set<Role> roles;
-
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
-    public Set<Role> getRoles() {
-        return roles;
+    private Set<Role> roles;
+
+    @OneToMany(targetEntity = Comment.class, mappedBy = "author")
+    private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(targetEntity = Topo.class, mappedBy = "owner")
+    private List<Topo> ownedTopos = new ArrayList<>();
+
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getId() {
         return id;
     }
@@ -57,6 +67,33 @@ public class User {
 
     public void setPasswordConfirm(String passwordConfirm) {
         this.passwordConfirm = passwordConfirm;
+    }
+
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+
+    public List<Topo> getOwnedTopos() {
+        return ownedTopos;
+    }
+
+    public void setOwnedTopos(List<Topo> ownedTopos) {
+        this.ownedTopos = ownedTopos;
     }
 
 }

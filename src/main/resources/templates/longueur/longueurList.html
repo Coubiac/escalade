@@ -35,8 +35,8 @@
                            data-name=${longueur.name},
                            data-cotation=${longueur.cotation.value},
                            data-description=${longueur.description},
-                           data-creation=${longueur.createdAt},
-                           data-modification=${longueur.updatedAt}">Voir</button></td>
+                           data-creation=${longueur.createdDate},
+                           data-modification=${longueur.lastModifiedDate}">Voir</button></td>
       <td><a th:href="@{/longueur/longueurItemForm(id=${longueur.id })}" class="btn btn-primary">modifier</a></td>
       <td><a th:href="@{/longueur/longueurDelete(id=${longueur.id })}" class="btn btn-danger">supprimer</a></td>
     </tr>

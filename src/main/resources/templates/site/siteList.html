@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:data="http://www.w3.org/1999/xhtml" lang="fr">
+<!--/*@thymesVar id="site" type="com.begr.escalade.entity.Site"*/-->
 <head >
   <title>Application escalade</title>
   <!-- Required meta tags -->
@@ -21,6 +22,7 @@
     <tr>
       <th>nom</th>
       <th>voir</th>
+      <th>Fiche</th>
       <th>modifier</th>
       <th>Supprimer</th>
     </tr>
@@ -34,14 +36,16 @@
                   th:attr="data-siteid=${site.id},
                            data-name=${site.name},
                            data-description=${site.description},
-                           data-creation=${site.createdAt},
-                           data-modification=${site.updatedAt}">Voir</button></td>
+                           data-creation=${site.createdDate},
+                           data-modification=${site.lastModifiedDate}">Aperçu</button></td>
+      <td><a th:href="@{/site/view(id=${site.id })}" class="btn btn-primary">Fiche</a></td>
       <td><a th:href="@{/site/siteItemForm(id=${site.id })}" class="btn btn-primary">modifier</a></td>
       <td><a th:href="@{/site/siteDelete(id=${site.id })}" class="btn btn-danger">supprimer</a></td>
     </tr>
 
     </tbody>
   </table>
+
 
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">

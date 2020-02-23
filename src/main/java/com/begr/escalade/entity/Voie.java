@@ -1,18 +1,12 @@
 package com.begr.escalade.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.lucene.analysis.fr.FrenchAnalyzer;
 import org.hibernate.search.annotations.*;
 import org.hibernate.search.annotations.Index;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
@@ -20,10 +14,7 @@ import java.util.List;
 @Table(name = "voies")
 @Indexed
 @Analyzer(impl = FrenchAnalyzer.class)
-@EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
-        allowGetters = true)
-public class Voie {
+public class Voie extends Auditable<String>{
 
     /**
      *
@@ -57,19 +48,9 @@ public class Voie {
     @ContainedIn
     private Secteur secteur;
 
-    @OneToMany(mappedBy = "voie")
+    @OneToMany(mappedBy = "voie", orphanRemoval = true, cascade = CascadeType.PERSIST)
     @IndexedEmbedded
     private List<Longueur> longueurs = new ArrayList<>();
-
-    @Column(nullable = false, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    private Date createdAt;
-
-    @Column(nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
-    private Date updatedAt;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -127,21 +108,6 @@ public class Voie {
 
     public void setLongueurs(List<Longueur> longueurs) { this.longueurs = longueurs; }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 
     @Override
     public String toString() {
@@ -151,8 +117,6 @@ public class Voie {
                 ", description='" + description + '\'' +
                 ", cotation=" + cotation +
                 ", secteur=" + secteur +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
                 '}';
     }
 }

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<body>
+    <div th:fragment="listSecteurs" class="row">
+        <div class="col">
+            <ul th:each="secteur: ${site.secteurs}">
+                <li><input type="checkbox" th:id="${secteur.id}" id="c2" />
+                    <i class="fa fa-angle-double-right"></i>
+                    <i class="fa fa-angle-double-down"></i>
+                    <label th:for="${secteur.id}" th:text="${secteur.name + ' - ' + secteur.description}">Niveau 1</label>
+                    <ul th:each="voie: ${secteur.voies}">
+                        <li><input type="checkbox" id="c3" th:id="${voie.id}" />
+                            <i class="fa fa-angle-double-right"></i>
+                            <i class="fa fa-angle-double-down"></i>
+                            <label for="c3" th:for="${voie.id}" th:text="${voie.name + ' - ' + voie.cotation.value}">Niveau 2</label>
+                            <a th:href="@{/voie/voieItemForm(id=${voie.id})}">modifier</a>
+                            <ul th:each="longueur: ${voie.longueurs}">
+                                <li>
+                                    <span th:text="${longueur.name + ' ' + longueur.cotation.value}">Niveau 3></span>
+                                    <span><a th:href="@{/longueur/longueurItemForm(id=${longueur.id})}">Modifier</a> </span>
+                                </li>
+
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

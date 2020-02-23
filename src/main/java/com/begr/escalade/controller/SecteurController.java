@@ -44,7 +44,6 @@ public class SecteurController {
     }
 
     //Traitement du formulaire
-
     @PostMapping(value="/SubmitSecteurForm")
     public String submitSecteurForm(@Valid Secteur theSecteur, BindingResult theBindingResult, Model model) {
         if( theBindingResult.hasErrors()){

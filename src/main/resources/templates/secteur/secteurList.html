@@ -34,8 +34,8 @@
                   th:attr="data-secteurid=${secteur.id},
                            data-name=${secteur.name},
                            data-description=${secteur.description},
-                           data-creation=${secteur.createdAt},
-                           data-modification=${secteur.updatedAt}">Voir</button></td>
+                           data-creation=${secteur.createdDate},
+                           data-modification=${secteur.lastModifiedDate}">Voir</button></td>
       <td><a th:href="@{/secteur/secteurItemForm(id=${secteur.id })}" class="btn btn-primary">modifier</a></td>
       <td><a th:href="@{/secteur/secteurDelete(id=${secteur.id })}" class="btn btn-danger">supprimer</a></td>
     </tr>

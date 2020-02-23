@@ -22,7 +22,7 @@ public class LuceneIndexService {
             fullTextEntityManager.createIndexer().startAndWait();
             logger.debug("=====   INDEX TERMINÉ   =====");
         } catch (InterruptedException e) {
-            logger.warn("INDEX ERREUR");
+            logger.error("INDEX ERREUR");
             throw new RuntimeException(e);
 
         }

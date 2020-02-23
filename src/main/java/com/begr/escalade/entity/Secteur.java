@@ -5,25 +5,19 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.lucene.analysis.fr.FrenchAnalyzer;
 import org.hibernate.search.annotations.*;
 import org.hibernate.search.annotations.Index;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 
 @Entity
 @Table(name = "secteurs")
 @Indexed
 @Analyzer(impl = FrenchAnalyzer.class)
-@EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
-        allowGetters = true)
-public class Secteur {
+public class Secteur extends Auditable<String>{
     /**
      *
      */
@@ -50,20 +44,10 @@ public class Secteur {
     @ContainedIn
     private Site site;
 
-    @OneToMany(mappedBy = "secteur")
+    @OneToMany(mappedBy = "secteur", orphanRemoval = true, cascade = CascadeType.PERSIST)
     @IndexedEmbedded
     private List<Voie> voies = new ArrayList<>();
 
-
-    @Column(nullable = false, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    private Date createdAt;
-
-    @Column(nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
-    private Date updatedAt;
 
 
     public Long getId() {
@@ -90,21 +74,6 @@ public class Secteur {
         this.description = description;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 
     public static long getSerialversionuid() {
         return serialVersionUID;
@@ -138,8 +107,6 @@ public class Secteur {
     public String toString(){
         return "ID: " + getId() +
                 "\nNAME: " + getName() +
-                "\nDESCRIPTION: " + getDescription() +
-                "\nDATE CREATION: " + getCreatedAt() +
-                "\nDATE MAJ: " + getUpdatedAt();
+                "\nDESCRIPTION: " + getDescription();
     }
 }

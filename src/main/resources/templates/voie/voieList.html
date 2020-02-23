@@ -34,8 +34,8 @@
                   th:attr="data-voieid=${voie.id},
                            data-name=${voie.name},
                            data-description=${voie.description},
-                           data-creation=${voie.createdAt},
-                           data-modification=${voie.updatedAt}">Voir</button></td>
+                           data-creation=${voie.createdDate},
+                           data-modification=${voie.lastModifiedDate}">Voir</button></td>
       <td><a th:href="@{/voie/voieItemForm(id=${voie.id })}" class="btn btn-primary">modifier</a></td>
       <td><a th:href="@{/voie/voieDelete(id=${voie.id })}" class="btn btn-danger">supprimer</a></td>
     </tr>

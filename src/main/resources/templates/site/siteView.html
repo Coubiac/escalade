@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns:data="http://www.w3.org/1999/xhtml"
+      xmlns:https="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.w3.org/1999/xhtml" lang="fr"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<!--/*@thymesVar id="site" type="com.begr.escalade.entity.Site"*/-->
+<!--/*@thymesVar id="newComment" type="com.begr.escalade.entity.Comment"*/-->
+<head>
+    <title>Application escalade</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!--/* Per-page placeholder for additional links */-->
+    <link rel="stylesheet" th:href="@{/css/list.css}"/>
+
+    <script src="https://kit.fontawesome.com/c27764e901.js" crossorigin="anonymous"></script>
+
+</head>
+<body>
+<div class="container">
+    <div th:insert="~{utils/menu :: menu}"></div>
+    <div class="row">
+        <div class="col">
+
+            <h1 th:text="${site.name}">Titre du site</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <img th:src="'https://loremflickr.com/1280/400/' + ${site.slug} + '/all'" th:alt="${site.name}" class="img-fluid">
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col">
+            <p th:text="${'Dernière modification: ' + site.lastModifiedDate + ' par: ' + site.lastModifiedBy}"></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p th:text="${site.description}">description</p>
+        </div>
+    </div>
+    <div th:insert="~{utils/listSecteurs :: listSecteurs}"></div>
+
+
+    <div th:each="theComment: ${site.comments}" class="row">
+        <div class="col">
+            <p>
+                <span th:text="${theComment.author.username + ': '+ theComment.value}">Texte de commentaire</span>
+
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <h2>Ajouter un commentaire</h2>
+        </div>
+    </div>
+
+    <div th:insert="~{utils/CommentForm :: commentForm}"></div>
+</div>
+
+
+
+<div th:insert="~{utils/scripts :: scripts}"></div>
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+</body>
+</html>

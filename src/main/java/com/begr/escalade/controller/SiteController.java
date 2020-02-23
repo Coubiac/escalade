@@ -1,9 +1,17 @@
 package com.begr.escalade.controller;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.begr.escalade.entity.Comment;
+import com.begr.escalade.entity.User;
+import com.begr.escalade.repository.CommentRepository;
+import com.begr.escalade.repository.UserRepository;
+import com.begr.escalade.service.LuceneIndexService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,9 +27,17 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/site")
 public class SiteController {
+    private final Logger logger = (Logger) LoggerFactory.getLogger(SiteController.class);
+
 
     @Resource
     SiteRepository siteRepository;
+
+    @Resource
+    CommentRepository commentRepository;
+
+    @Resource
+    UserRepository userRepository;
 
 
 
@@ -38,13 +54,30 @@ public class SiteController {
 
     }
 
+    @GetMapping("/view")
+    public ModelAndView viewOneSiteFiInformations(Integer id){
+        String viewName = "site/siteView";
+        Map<String,Object> model = new HashMap<String,Object>();
+        Comment newComment = new Comment();
+        Site existingSite = siteRepository.getOne(Long.valueOf(id));
+        if (existingSite == null) {
+            RedirectView redirect = new RedirectView();
+            redirect.setUrl("/site/list");
+            return new ModelAndView(redirect);
+        }
+        else {
+            model.put("site", existingSite);
+            model.put("newComment", newComment);
+            return new ModelAndView(viewName, model);
+        }
+    }
+
     //affichage du formulaire
     @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/siteItemForm")
     public ModelAndView showSiteItemForm(@RequestParam(required = false) Integer id) {
         String viewName= "site/siteItemForm";
         Map<String,Object> model = new HashMap<String,Object>();
-
         if (id != null){
             Site existingSite = siteRepository.getOne(Long.valueOf(id));
             if (existingSite == null) {
@@ -95,19 +128,51 @@ public class SiteController {
         String viewName= "site/siteList";
 
         if(searchQuery == null){
-            System.out.println("inside if");
             RedirectView redirect = new RedirectView();
             redirect.setUrl("/site/list");
             return new ModelAndView(redirect);
         }
-        List<Site> sites = siteRepository.findFulltext(searchQuery);
-
         Map<String,Object> model = new HashMap<String,Object>();
+        List<Site> sites = siteRepository.findFulltext(searchQuery);
+        if (sites.size() == 1){
+
+            Site theSite = sites.get(0);
+            RedirectView redirect = new RedirectView();
+            redirect.setUrl("view");
+            redirect.addStaticAttribute("id", theSite.getId());
+            return new ModelAndView(redirect);
+        }
         model.put("sites", sites);
         model.put("numberOfSites", sites.size());
 
         return new ModelAndView(viewName,model);
 
+    }
+
+    //Ajout d'un commentaire
+    @PostMapping("/addComment")
+    public ModelAndView submitCommentItemForm(@Valid Comment theComment, Principal principal) {
+        String username = principal.getName();
+        User author = userRepository.findByUsername(username);
+        theComment.setAuthor(author);
+        System.out.println(theComment.toString());
+        commentRepository.save(theComment);
+        RedirectView redirect = new RedirectView();
+        redirect.setUrl("/site/view");
+        redirect.addStaticAttribute("id", theComment.getSite().getId());
+        return new ModelAndView(redirect);
+    }
+
+    @PostMapping("/replyComment")
+    public ModelAndView replyCommentAction(Comment theComment, Principal principal) {
+        String username = principal.getName();
+        User author = userRepository.findByUsername(username);
+        theComment.setAuthor(author);
+
+        RedirectView redirect = new RedirectView();
+        redirect.setUrl("/site/view");
+        redirect.addStaticAttribute("id", theComment.getSite().getId());
+        return new ModelAndView(redirect);
     }
 
 

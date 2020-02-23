@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:data="http://www.w3.org/1999/xhtml" lang="fr">
+<!--/*@thymesVar id="topo" type="com.begr.escalade.entity.Topo"*/-->
+<head >
+    <title>Application escalade</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!--/* Per-page placeholder for additional links */-->
+
+
+</head>
+<body>
+<div class="container">
+    <div th:insert="~{utils/menu :: menu}"></div>
+
+    <h1>Liste des topos</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>nom</th>
+            <th>voir</th>
+            <th>Fiche</th>
+            <th>modifier</th>
+            <th>Supprimer</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="topo: ${topos}">
+            <td th:text="${topo.site.name}"></td>
+            <!-- On crée un bouton et on bind les attributs pour pouvoir les récupérer dans le javascript -->
+            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"
+                        th:attr="data-topoid=${topo.id},
+                           data-name=${topo.site.name},
+                           data-borrowed=${topo.isBorrowed()},
+                           data-owner=${topo.owner.username},
+                           data-borrower=${topo.borrower}">Aperçu</button></td>
+            <td><a th:href="@{/topo/view(id=${topo.id })}" class="btn btn-primary">Fiche</a></td>
+            <td><a th:href="@{/topo/topoItemForm(id=${topo.id })}" class="btn btn-primary">modifier</a></td>
+            <td><a th:href="@{/topo/topoDelete(id=${topo.id })}" class="btn btn-danger">supprimer</a></td>
+        </tr>
+
+        </tbody>
+    </table>
+
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">nom du topo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p><span class="createdAt small text-left"></span> <span class="updatedAt small text-right"></span></p>
+                    <div class="description"></div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    <a href="#" class="btn btn-primary modifier">modifier</a>
+                </div>
+            </div>
+        </div>
+    </div><!-- fin modale -->
+
+    <!-- debut script pour modale -->
+
+
+
+
+
+</div>
+<span th:insert="~{utils/scripts :: scripts}"></span>
+
+<script>
+    $('#myModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Bouton qui a ouvert la modale
+        // On récupère les valeurs data et on les envoie dans les class que l'on veut
+        $(this).find('.createdAt').text('Créé le: ' + button.data('creation'));
+        console.log(button.data('name'));
+        $(this).find('.updatedAt').text('Modifié le: ' + button.data('modification'));
+        $(this).find('.modal-title').text(button.data('name'));
+        $(this).find('.description').text(button.data('description'));
+        $(this).find('.modifier').attr("href", "/topo/topoItemForm?id=" + button.data('topoid'))
+    })
+</script>
+
+</body>
+</html>
