@@ -25,13 +25,12 @@
             <label for = "site" class = "col-sm-2 col-form-label">Site</label>
             <div class = "col-sm-4">
 
-                <select class="form-control" th:field="${topo.site}"  id="dropOperator">
-                    <option value="0">select site</option>
+                <select size="10" multiple="multiple" class="form-control" th:field="${topo.sites}"  id="dropOperator">
                     <option th:each="site : ${sites}" th:value="${site.id}" th:text="${site.name}"></option>
                 </select>
             </div>
             <div class="col-sm-4">
-                <span class="text-danger" th:errors="*{topo.site}"> </span>
+                <span class="text-danger" th:errors="*{topo.sites}"> </span>
             </div>
         </div>
 
