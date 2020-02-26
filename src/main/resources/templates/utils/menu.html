@@ -16,10 +16,12 @@
                         <path d="M22 11 C22 16 19 20 16 20 13 20 10 16 10 11 10 6 12 3 16 3 20 3 22 6 22 11 Z M4 30 L28 30 C28 21 22 20 16 20 10 20 4 21 4 30 Z" />
                     </svg> <span sec:authentication="name">Bob</span>
                 </a>
+
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <form id='logout' th:action="@{/logout}" class="dropdown-item form-inline my-2 my-lg-0" method="post">
+                    <form sec:authorize="isAuthenticated()" id='logout' th:action="@{/logout}" class="dropdown-item form-inline my-2 my-lg-0" method="post">
                         <a class="dropdown-item" href="#" onclick="document.getElementById('logout').submit();">déconnexion</a>
                     </form>
+                    <a sec:authorize="hasAuthority('USER')" class="dropdown-item" href="/topo/topoItemForm">Ajouter Topo</a>
                 </div>
 
             </li>
@@ -43,6 +45,7 @@
                     <a class="dropdown-item" href="/secteur/list">Secteurs</a>
                     <a class="dropdown-item" href="/voie/list">Voies</a>
                     <a class="dropdown-item" href="/longueur/list">Longueurs</a>
+                    <a class="dropdown-item" href="/topo/list">Topos</a>
                 </div>
             </li>
         </ul>

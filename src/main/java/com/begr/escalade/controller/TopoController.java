@@ -57,7 +57,7 @@ public class TopoController {
 
     //affichage du formulaire
     @PreAuthorize("hasAuthority('USER')")
-    @GetMapping("/newTopoForm")
+    @GetMapping("/topoItemForm")
     public String showTopoItemForm(@RequestParam(required = false) Integer id, Model theModel) {
         String viewName= "topo/topoItemForm";
         theModel.addAttribute("sites", siteRepository.findAll());

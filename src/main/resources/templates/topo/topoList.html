@@ -30,14 +30,15 @@
         <tbody>
 
         <tr th:each="topo: ${topos}">
-            <td th:text="${topo.site.name}"></td>
+            <td th:text="${topo.name}"></td>
             <!-- On crée un bouton et on bind les attributs pour pouvoir les récupérer dans le javascript -->
             <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"
                         th:attr="data-topoid=${topo.id},
-                           data-name=${topo.site.name},
+                           data-name=${topo.name},
+                           data-description=${topo.description},
                            data-borrowed=${topo.isBorrowed()},
-                           data-owner=${topo.owner.username},
-                           data-borrower=${topo.borrower}">Aperçu</button></td>
+                           data-sites=${topo.sites},
+                           data-owner=${topo.owner.username}">Aperçu</button></td>
             <td><a th:href="@{/topo/view(id=${topo.id })}" class="btn btn-primary">Fiche</a></td>
             <td><a th:href="@{/topo/topoItemForm(id=${topo.id })}" class="btn btn-primary">modifier</a></td>
             <td><a th:href="@{/topo/topoDelete(id=${topo.id })}" class="btn btn-danger">supprimer</a></td>
@@ -57,7 +58,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p><span class="createdAt small text-left"></span> <span class="updatedAt small text-right"></span></p>
+                    <p><span class="owner small text-left"></span> <span class="updatedAt small text-right"></span></p>
                     <div class="description"></div>
 
                 </div>
@@ -80,11 +81,14 @@
 
 <script>
     $('#myModal').on('show.bs.modal', function (event) {
+
         var button = $(event.relatedTarget); // Bouton qui a ouvert la modale
         // On récupère les valeurs data et on les envoie dans les class que l'on veut
-        $(this).find('.createdAt').text('Créé le: ' + button.data('creation'));
-        console.log(button.data('name'));
-        $(this).find('.updatedAt').text('Modifié le: ' + button.data('modification'));
+        console.log(button.data("sites"));
+        let sites = button.data("sites");
+        let siteList = JSON.parse(sites);
+
+        $(this).find('.owner').text('Propriétaire: ' + button.data('owner'));
         $(this).find('.modal-title').text(button.data('name'));
         $(this).find('.description').text(button.data('description'));
         $(this).find('.modifier').attr("href", "/topo/topoItemForm?id=" + button.data('topoid'))

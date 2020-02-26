@@ -23,11 +23,11 @@ public class TopoRepositoryImpl implements TopoRepositoryCustom {
     }
 
     @Override
-    public List<Topo> findAllByBorrowerId(Integer borrowerId) {
-        Query query = entityManager.createNativeQuery("SELECT * FROM topos WHERE borrower_id = ?", Topo.class);
-        query.setParameter(1, borrowerId);
+    public List<Topo> findAllDispo() {
+        Query query = entityManager.createNativeQuery("SELECT * FROM topos WHERE borrowed = false", Topo.class);
         return query.getResultList();
     }
+
 
     @Override
     public List<Topo> findAllByOwnerId(Integer ownerId) {

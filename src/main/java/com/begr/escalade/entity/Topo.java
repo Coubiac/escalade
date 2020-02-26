@@ -28,6 +28,9 @@ public class Topo {
     @JoinColumn(name = "site_id")
     private List<Site> sites;
 
+    @OneToMany
+    private List<Reservation> reservations;
+
     private Boolean borrowed;
 
     public static long getSerialVersionUID() {
@@ -40,6 +43,26 @@ public class Topo {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return Description;
+    }
+
+    public void setDescription(String description) {
+        Description = description;
+    }
+
+    public Boolean getBorrowed() {
+        return borrowed;
     }
 
     public User getOwner() {
@@ -64,5 +87,13 @@ public class Topo {
 
     public void setBorrowed(Boolean borrowed) {
         this.borrowed = borrowed;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
     }
 }

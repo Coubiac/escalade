@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:data="http://www.w3.org/1999/xhtml" lang="fr">
-<!--/*@thymesVar id="site" type="com.begr.escalade.entity.Site"*/-->
+<!--/*@thymesVar id="topo" type="com.begr.escalade.entity.Site"*/-->
 <!--/*@thymesVar id="topo" type="com.begr.escalade.entity.Topo"*/-->
 <head >
     <title>Application escalade</title>
@@ -21,17 +21,34 @@
     <hr/>
     <form action="#" method="post" th:action="@{/topo/submitNewTopoForm}">
 
+        <div class = "form-group row ">
+            <label for="name" class = "col-sm-2 col-form-label">Nom</label>
+            <div class = "col-sm-4">
+                <input type = "text" class="form-control" placeholder="Obligatoire" name="name" th:field="${topo.name}" >
+            </div>
+            <div class="col-sm-4">
+                <span class="text-danger"> </span>
+            </div>
+        </div>
         <div class = "form-group row">
-            <label for = "site" class = "col-sm-2 col-form-label">Site</label>
+            <label for="description" class="col-sm-2 col-form-label">Description</label>
+            <div class = "col-sm-4">
+                <textarea class = "form-control" rows="3" placeholder="Max. 50 caractères" name="description" th:field="${topo.description}"></textarea>
+            </div>
+            <div class="col-sm-4">
+                <span class="text-danger"> </span>
+            </div>
+        </div>
+        <div class = "form-group row">
+            <label for = "topo" class = "col-sm-2 col-form-label">Site</label>
             <div class = "col-sm-4">
 
-                <select class="form-control" th:field="${topo.site}"  id="dropOperator">
-                    <option value="0">select site</option>
+                <select multiple="multiple" class="form-control" th:field="${topo.sites}"  id="dropOperator">
                     <option th:each="site : ${sites}" th:value="${site.id}" th:text="${site.name}"></option>
                 </select>
             </div>
             <div class="col-sm-4">
-                <span class="text-danger" th:errors="*{topo.site}"> </span>
+                <span class="text-danger" th:errors="*{topo.sites}"> </span>
             </div>
         </div>
 
