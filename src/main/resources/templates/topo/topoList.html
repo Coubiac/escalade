@@ -30,6 +30,7 @@
         <tbody>
 
         <tr th:each="topo: ${topos}">
+<<<<<<< HEAD
             <td th:text="${topo.name}"></td>
             <!-- On crée un bouton et on bind les attributs pour pouvoir les récupérer dans le javascript -->
             <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"
@@ -38,6 +39,14 @@
                            data-description=${topo.description},
                            data-borrowed=${topo.isBorrowed()},
                            data-sites=${topo.sites},
+=======
+            <td><ul th:each="site: ${topo.sites}"><li th:text="${site.name}"></li></ul> </td>
+            <!-- On crée un bouton et on bind les attributs pour pouvoir les récupérer dans le javascript -->
+            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"
+                        th:attr="data-topoid=${topo.id},
+                           data-name=${topo.owner.username},
+                           data-borrowed=${topo.isBorrowed()},
+>>>>>>> 6b222a46c4b395c645ccbd0ffa26bb9966ee28ce
                            data-owner=${topo.owner.username}">Aperçu</button></td>
             <td><a th:href="@{/topo/view(id=${topo.id })}" class="btn btn-primary">Fiche</a></td>
             <td><a th:href="@{/topo/topoItemForm(id=${topo.id })}" class="btn btn-primary">modifier</a></td>
