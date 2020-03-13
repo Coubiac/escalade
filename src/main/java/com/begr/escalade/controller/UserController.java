@@ -27,7 +27,7 @@ public class UserController {
     public String registration(Model model) {
         model.addAttribute("userForm", new User());
 
-        return "security/registration";
+        return "security/register";
     }
 
     @PostMapping(value = "/register")
@@ -35,12 +35,12 @@ public class UserController {
         userValidator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            return "security/registration";
+            return "security/register";
         }
 
         userService.save(userForm);
 
-        return "redirect:/";
+        return "security/login";
     }
 
     @GetMapping(value = "/login")

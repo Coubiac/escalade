@@ -19,6 +19,8 @@ public class Reservation {
     @ManyToOne
     private User emprunteur;
 
+
+    private Date dateDemande;
     private Date dateEmprunt;
     private Date dateRetour;
 
@@ -52,6 +54,14 @@ public class Reservation {
 
     public void setEmprunteur(User emprunteur) {
         this.emprunteur = emprunteur;
+    }
+
+    public Date getDateDemande() {
+        return dateDemande;
+    }
+
+    public void setDateDemande(Date dateDemande) {
+        this.dateDemande = dateDemande;
     }
 
     public Date getDateEmprunt() {

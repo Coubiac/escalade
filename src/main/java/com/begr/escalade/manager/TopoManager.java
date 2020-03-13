@@ -3,13 +3,10 @@ package com.begr.escalade.manager;
 import com.begr.escalade.entity.Reservation;
 import com.begr.escalade.entity.ReservationStatus;
 import com.begr.escalade.entity.Topo;
-import com.begr.escalade.repository.ReservationRepository;
 import com.begr.escalade.repository.TopoRepository;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 

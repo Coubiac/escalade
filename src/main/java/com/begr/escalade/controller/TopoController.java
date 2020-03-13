@@ -47,6 +47,17 @@ public class TopoController {
         return viewName;
 
     }
+
+    @GetMapping("/myTopos")
+    public String getMyTopos (Model model, Principal principal) {
+        String username = principal.getName();
+        User owner = userRepository.findByUsername(username);
+        String viewName= "topo/topoList";
+        List<Topo> topos = topoRepository.findAllByOwnerId(owner.getId().intValue());
+        model.addAttribute("topos", topos);
+        return viewName;
+    }
+
     @GetMapping("/topoDelete")
     public ModelAndView deleteTopoItem(Topo topo) {
         topoRepository.delete(topo);
@@ -78,7 +89,7 @@ public class TopoController {
 
     //Traitement du formulaire
     @PostMapping(value="/submitNewTopoForm")
-    public RedirectView submitSecteurForm(Topo theTopo, Model model, Principal principal) {
+    public RedirectView submitSecteurForm(Topo theTopo, Principal principal) {
         String username = principal.getName();
         User owner = userRepository.findByUsername(username);
         theTopo.setOwner(owner);

@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:data="http://www.w3.org/1999/xhtml" lang="fr">
+<!--/*@thymesVar id="topo" type="com.begr.escalade.entity.Topo"*/-->
+
 <head >
     <title>Application escalade</title>
     <!-- Required meta tags -->
@@ -17,10 +19,11 @@
     <h2 class = "mt-4">Réserver un Topo</h2>
 
     <hr/>
-    <form action="#" method="post" th:action="@{/reservation/SubmitLongueurForm}">
+    <form action="#" method="post" th:action="@{/reservation/SubmitReservationForm}">
         <div class = "form-group row">
             <label for = "cotation" class = "col-sm-2 col-form-label">Choisir un topo:</label>
             <div class = "col-sm-4">
+                <!--/*@thymesVar id="reservation" type="com.begr.escalade.entity.Reservation"*/-->
                 <select id="cotation" th:field="*{reservation.topo}">
                     <option th:each="topo : ${topos}"
                             th:value="${topo.id}"

@@ -17,6 +17,7 @@ public class User  {
     private Long id;
     private String username;
     private String password;
+    @Transient
     private String passwordConfirm;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
@@ -60,7 +61,7 @@ public class User  {
         this.password = password;
     }
 
-    @Transient
+
     public String getPasswordConfirm() {
         return passwordConfirm;
     }

@@ -17,7 +17,7 @@
 
 
 
-<form method="post" th:action="@{/registration}" oninput='password2.setCustomValidity(passwordConfirm.value != password.value ? "Passwords do not match." : "")'>
+<form method="post" th:action="@{/register}" oninput='password2.setCustomValidity(passwordConfirm.value != password.value ? "Passwords do not match." : "")'>
     <div class = "form-group row ">
         <div class="col-sm-8">
             <div th:if="${param.error}">
@@ -34,15 +34,15 @@
     </div>
     <div class="form-group">
         <label for="username">nom d'utilisateur:</label>
-        <input name="username" type="text" class="form-control" id="username" placeholder="Goldorak">
+        <input name="username" type="text" class="form-control" id="username" placeholder="nom d'utilisateur">
     </div>
     <div class="form-group">
         <label for="password">Mot de passe</label>
-        <input type="password" name="password" class="form-control" id="password" placeholder="pA$$vv0rcl">
+        <input type="password" name="password" class="form-control" id="password" placeholder="mot de passe">
     </div>
     <div class="form-group">
-        <label for="password">Conformer le mot de passe</label>
-        <input type="password" name="passwordConfirm" class="form-control" id="passwordConfirm" placeholder="pA$$vv0rcl">
+        <label for="passwordConfirm">Confirmer le mot de passe</label>
+        <input type="password" name="passwordConfirm" class="form-control" id="passwordConfirm" placeholder="mot de passe">
     </div>
     <div class="form-check">
         <input type="checkbox" class="form-check-input" id="rememberMe">
