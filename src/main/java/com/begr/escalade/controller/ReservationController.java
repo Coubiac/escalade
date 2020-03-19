@@ -65,4 +65,34 @@ public class ReservationController {
         return redirect;
     }
 
+    @GetMapping("/myReservations")
+    public String showMyReservations(Model theModel){
+        String viewName = "reservation/reservationList";
+        theModel.addAttribute("myReservations", reservationManager.getMyReservations());
+        return viewName;
+    }
+    @GetMapping("/myActiveReservations")
+    public String showMyActiveReservations(Model theModel){
+        String viewName = "reservation/reservationList";
+        theModel.addAttribute("myReservations", reservationManager.getMyActiveReservations());
+        return viewName;
+    }
+
+    @GetMapping("/validate")
+    public RedirectView validate(Integer id){
+        reservationManager.validate(id);
+        RedirectView redirect = new RedirectView();
+        redirect.setUrl("/reservation/myReservations");
+        return redirect;
+    }
+
+    @GetMapping("/terminate")
+    public RedirectView terminate(Integer id){
+        reservationManager.terminate(id);
+        RedirectView redirect = new RedirectView();
+        redirect.setUrl("/reservation/myReservations");
+        return redirect;
+    }
+
+
 }

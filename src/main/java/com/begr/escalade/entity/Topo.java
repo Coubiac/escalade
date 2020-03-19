@@ -17,10 +17,13 @@ public class Topo {
 
     private String Description;
 
+    private Boolean disponible;
 
     @NotNull
     @ManyToOne(targetEntity = User.class)
     private User owner;
+
+
 
 
     @NotNull
@@ -28,10 +31,9 @@ public class Topo {
     @JoinColumn(name = "site_id")
     private List<Site> sites;
 
-    @OneToMany
+    @OneToMany(targetEntity = Reservation.class)
+    @JoinColumn(name = "topo_id")
     private List<Reservation> reservations;
-
-    private Boolean borrowed;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -61,9 +63,6 @@ public class Topo {
         Description = description;
     }
 
-    public Boolean getBorrowed() {
-        return borrowed;
-    }
 
     public User getOwner() {
         return owner;
@@ -81,12 +80,16 @@ public class Topo {
         this.sites = sites;
     }
 
-    public Boolean isBorrowed() {
-        return borrowed;
+    public Boolean getDisponible() {
+        return disponible;
     }
 
-    public void setBorrowed(Boolean borrowed) {
-        this.borrowed = borrowed;
+    public Boolean isDisponible() {
+        return disponible;
+    }
+
+    public void setDisponible(Boolean disponible) {
+        this.disponible = disponible;
     }
 
     public List<Reservation> getReservations() {

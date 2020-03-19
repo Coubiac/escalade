@@ -9,7 +9,7 @@ import java.util.List;
 public interface TopoRepositoryCustom {
     List<Topo> findAllBySiteId(Integer siteId);
 
-    List<Topo> findAllDispo();
+    List<Topo> findAllDispo(Integer userId);
 
     List<Topo> findAllByOwnerId(Integer ownerId);
 }

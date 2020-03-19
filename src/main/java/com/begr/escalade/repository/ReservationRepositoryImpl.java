@@ -17,4 +17,34 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
         query.setParameter("status", reservationStatus);
         return query.getResultList();
     }
+
+    public List<Reservation> findAllByStatusNot(String reservationStatus) {
+        Query query = entityManager.createNativeQuery("SELECT * FROM reservations WHERE status <> :status", Reservation.class);
+        query.setParameter("status", reservationStatus);
+        return query.getResultList();
+    }
+
+    public List<Reservation> findAllByTopoOwnerUsername(String username) {
+        Query query = entityManager.createNativeQuery(
+                "SELECT * FROM reservations\n" +
+                        "    INNER JOIN topos ON reservations.topo_id = topos.id\n" +
+                        "        INNER JOIN user ON user.id = topos.owner_id\n" +
+                        "WHERE username = :username ORDER BY status ASC, date_emprunt DESC", Reservation.class
+
+        );
+        query.setParameter("username", username);
+        return query.getResultList();
+    }
+
+    public List<Reservation> findAllByTopoOwnerUsernameAndIsActive(String username) {
+        Query query = entityManager.createNativeQuery(
+                "SELECT * FROM reservations\n" +
+                        "    INNER JOIN topos ON reservations.topo_id = topos.id\n" +
+                        "        INNER JOIN user ON user.id = topos.owner_id\n" +
+                        "WHERE username = :username AND reservations.status <> 'TERMINE'", Reservation.class
+
+        );
+        query.setParameter("username", username);
+        return query.getResultList();
+    }
 }

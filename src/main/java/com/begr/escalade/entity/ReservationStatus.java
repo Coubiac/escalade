@@ -5,8 +5,12 @@ public enum ReservationStatus {
     EN_COURS("En cours"),
     TERMINE("Terminé");
 
+    private final String displayValue;
 
-    ReservationStatus(String status) {
-
+    ReservationStatus(String displayValue) {
+        this.displayValue = displayValue;
+    }
+    public String getDisplayValue() {
+        return displayValue;
     }
 }
