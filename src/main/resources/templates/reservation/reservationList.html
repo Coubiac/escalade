@@ -18,38 +18,38 @@
     <div>
 
 
-    <table>
-        <thead>
-        <tr>
-            <th>Date de demande</th>
-            <th>nom du topo</th>
-            <th>Emprunteur</th>
-            <th>Status</th>
-            <th>Action</th>
-            <th>Annuler</th>
-        </tr>
-        </thead>
-        <tbody>
+        <table>
+            <thead>
+            <tr>
+                <th>Date de demande</th>
+                <th>nom du topo</th>
+                <th>Emprunteur</th>
+                <th>Status</th>
+                <th>Action</th>
+                <th>Annuler</th>
+            </tr>
+            </thead>
+            <tbody>
 
-        <tr th:each="reservation: ${myReservations}">
-            <!--/*@thymesVar id="reservation" type="com.begr.escalade.entity.Reservation"*/-->
-            <td th:text="${#dates.format(reservation.dateDemande, 'dd/MM/yyyy HH:mm')}"></td>
-            <td th:text="${reservation.topo.name}"></td>
-            <td th:text="${reservation.emprunteur.username}"></td>
-            <td th:text="${reservation.status.getDisplayValue()}"></td>
-            <td th:switch="${reservation.status}">
-                <span th:case="${T(com.begr.escalade.entity.ReservationStatus).EN_ATTENTE}"><a th:href="@{/reservation/validate(id=${reservation.id })}" class="btn btn-primary">valider</a></span>
-                <span th:case="${T(com.begr.escalade.entity.ReservationStatus).EN_COURS}"><a th:href="@{/reservation/terminate(id=${reservation.id })}" class="btn btn-danger">terminer</a></span>
-                <span th:case="${T(com.begr.escalade.entity.ReservationStatus).TERMINE}"><a href="#" class="btn btn-secondary disabled" aria-disabled="true">terminer</a></span>
-            </td>
-            <td>
-                <span th:unless="${reservation.status == T(com.begr.escalade.entity.ReservationStatus).EN_ATTENTE}"><a href="#" class="btn btn-secondary disabled" aria-disabled="true" >annuler</a></span>
-                <span th:if="${reservation.status == T(com.begr.escalade.entity.ReservationStatus).EN_ATTENTE}"><a th:href="@{/reservation/cancel(id=${reservation.id })}" class="btn btn-danger">annuler</a></span>
+            <tr th:each="reservation: ${myReservations}">
+                <!--/*@thymesVar id="reservation" type="com.begr.escalade.entity.Reservation"*/-->
+                <td th:text="${#dates.format(reservation.dateDemande, 'dd/MM/yyyy HH:mm')}"></td>
+                <td th:text="${reservation.topo.name}"></td>
+                <td th:text="${reservation.emprunteur.username}"></td>
+                <td th:text="${reservation.status.getDisplayValue()}"></td>
+                <td th:switch="${reservation.status}">
+                    <span th:case="${T(com.begr.escalade.entity.ReservationStatus).EN_ATTENTE}"><a th:href="@{/reservation/validate(id=${reservation.id })}" class="btn btn-primary">valider</a></span>
+                    <span th:case="${T(com.begr.escalade.entity.ReservationStatus).EN_COURS}"><a th:href="@{/reservation/terminate(id=${reservation.id })}" class="btn btn-danger">terminer</a></span>
+                    <span th:case="${T(com.begr.escalade.entity.ReservationStatus).TERMINE}"><a href="#" class="btn btn-secondary disabled" aria-disabled="true">terminer</a></span>
+                </td>
+                <td>
+                    <span th:unless="${reservation.status == T(com.begr.escalade.entity.ReservationStatus).EN_ATTENTE}"><a href="#" class="btn btn-secondary disabled" aria-disabled="true" >annuler</a></span>
+                    <span th:if="${reservation.status == T(com.begr.escalade.entity.ReservationStatus).EN_ATTENTE}"><a th:href="@{/reservation/terminate(id=${reservation.id })}" class="btn btn-danger">annuler</a></span>
 
-            </td>
-        </tr>
-        </tbody>
-    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 <span th:insert="~{utils/scripts :: scripts}"></span>

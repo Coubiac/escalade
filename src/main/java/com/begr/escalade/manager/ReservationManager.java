@@ -49,6 +49,13 @@ public class ReservationManager {
         return myReservations;
     }
 
+    public List<Reservation> getMyReservedTopos(){
+        User theConnectedUser = userManager.getTheConnectedUser();
+        List<Reservation> myReservations;
+        myReservations = reservationRepository.findAllByEmprunteurUsername(theConnectedUser.getUsername());
+        return myReservations;
+    }
+
     public List<Reservation> getMyActiveReservations(){
         User theConnectedUser = userManager.getTheConnectedUser();
         List<Reservation> myActiveReservations;

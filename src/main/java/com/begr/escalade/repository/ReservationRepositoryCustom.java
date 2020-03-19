@@ -13,4 +13,6 @@ public interface ReservationRepositoryCustom {
     List<Reservation> findAllByTopoOwnerUsername(String username);
 
     List<Reservation> findAllByTopoOwnerUsernameAndIsActive(String username);
+
+    List<Reservation>findAllByEmprunteurUsername(String username);
 }

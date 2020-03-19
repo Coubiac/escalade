@@ -30,11 +30,19 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
                         "    INNER JOIN topos ON reservations.topo_id = topos.id\n" +
                         "        INNER JOIN user ON user.id = topos.owner_id\n" +
                         "WHERE username = :username ORDER BY status ASC, date_emprunt DESC", Reservation.class
-
         );
         query.setParameter("username", username);
         return query.getResultList();
     }
+
+    public List<Reservation>findAllByEmprunteurUsername(String username){
+        Query query = entityManager.createNativeQuery(
+                "SELECT * FROM reservations " +
+                        "INNER JOIN user ON user.id = reservations.emprunteur_id " +
+                        "WHERE username = :username ORDER BY status ASC, date_emprunt DESC", Reservation.class);
+        query.setParameter("username", username);
+        return query.getResultList();
+    };
 
     public List<Reservation> findAllByTopoOwnerUsernameAndIsActive(String username) {
         Query query = entityManager.createNativeQuery(

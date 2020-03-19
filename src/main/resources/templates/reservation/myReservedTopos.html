@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:data="http://www.w3.org/1999/xhtml"
+      xmlns:site="http://www.w3.org/1999/xhtml" lang="fr">
+<head >
+    <title>Application escalade</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/myReservedTopos.css}"/>
+
+</head>
+<body>
+<!--/*@thymesVar id="reservation" type="com.begr.escalade.entity.Reservation"*/-->
+<div class="container">
+    <div th:insert="~{utils/menu :: menu}"></div>
+
+    <h1>Mes reservations</h1>
+    <div>
+
+
+    <table>
+        <thead>
+        <tr>
+            <th>Date de demande</th>
+            <th>Date d'emprunt</th>
+            <th>Date de retour</th>
+            <th>Nom</th>
+            <th>Propriétaire</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="reservation: ${myReservations}">
+            <!--/*@thymesVar id="reservation" type="com.begr.escalade.entity.Reservation"*/-->
+            <td th:text="${#dates.format(reservation.dateDemande, 'dd/MM/yyyy HH:mm')}"></td>
+            <td th:text="${#dates.format(reservation.dateEmprunt, 'dd/MM/yyyy HH:mm')}"></td>
+            <td th:text="${#dates.format(reservation.dateRetour, 'dd/MM/yyyy HH:mm')}"></td>
+            <td th:text="${reservation.topo.name}"></td>
+            <td th:text="${reservation.topo.owner.username}"></td>
+            <td th:text="${reservation.status.getDisplayValue()}"></td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+</div>
+<span th:insert="~{utils/scripts :: scripts}"></span>
+
+
+
+</body>
+</html>
