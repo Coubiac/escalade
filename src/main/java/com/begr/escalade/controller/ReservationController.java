@@ -72,7 +72,7 @@ public class ReservationController {
         return viewName;
     }
 
-    @GetMapping("/myReservedTopos")
+    @GetMapping("/mesEmprunts")
     public String showMyReservedTopos(Model theModel){
         String viewName = "reservation/myReservedTopos";
         theModel.addAttribute("myReservations", reservationManager.getMyReservedTopos());

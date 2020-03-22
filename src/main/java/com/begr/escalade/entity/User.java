@@ -3,6 +3,7 @@ package com.begr.escalade.entity;
 
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -19,6 +20,11 @@ public class User  {
     private String password;
     @Transient
     private String passwordConfirm;
+
+
+    private String mail;
+
+
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
