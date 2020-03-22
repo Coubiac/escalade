@@ -4,6 +4,8 @@ package com.begr.escalade.entity;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -22,6 +24,8 @@ public class User  {
     private String passwordConfirm;
 
 
+    @NotEmpty(message = "Email is required")
+    @Email
     private String mail;
 
 
@@ -76,6 +80,13 @@ public class User  {
         this.passwordConfirm = passwordConfirm;
     }
 
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
 
     public Set<Role> getRoles() {
         return roles;

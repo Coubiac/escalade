@@ -30,12 +30,20 @@
             </tr>
             </thead>
             <tbody>
-
+            <!--/*@thymesVar id="myReservations" type="java.util.List<com.begr.escalade.entity.Reservation>"*/-->
+            <!--/*@thymesVar id="reservation" type="com.begr.escalade.entity.Reservation"*/-->
             <tr th:each="reservation: ${myReservations}">
                 <!--/*@thymesVar id="reservation" type="com.begr.escalade.entity.Reservation"*/-->
                 <td th:text="${#dates.format(reservation.dateDemande, 'dd/MM/yyyy HH:mm')}"></td>
                 <td th:text="${reservation.topo.name}"></td>
-                <td th:text="${reservation.emprunteur.username}"></td>
+                <td><button th:text="${reservation.emprunteur.username}" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"
+                            th:attr="data-reservationId=${reservation.id},
+                           data-emprunteurName=${reservation.emprunteur.username},
+                           data-topo=${reservation.topo.name},
+                           data-emprunteurMail=${reservation.emprunteur.mail},
+                           data-dateDemande=${#dates.format(reservation.dateDemande, 'dd/MM/yyyy HH:mm')},
+                           data-dateEmprunt=${#dates.format(reservation.dateEmprunt, 'dd/MM/yyyy HH:mm')},
+                           data-dateRetour=${#dates.format(reservation.dateRetour, 'dd/MM/yyyy HH:mm')}">Emprunteur</button></td>
                 <td th:text="${reservation.status.getDisplayValue()}"></td>
                 <td th:switch="${reservation.status}">
                     <span th:case="${T(com.begr.escalade.entity.ReservationStatus).EN_ATTENTE}"><a th:href="@{/reservation/validate(id=${reservation.id })}" class="btn btn-primary">valider</a></span>
@@ -45,16 +53,58 @@
                 <td>
                     <span th:unless="${reservation.status == T(com.begr.escalade.entity.ReservationStatus).EN_ATTENTE}"><a href="#" class="btn btn-secondary disabled" aria-disabled="true" >annuler</a></span>
                     <span th:if="${reservation.status == T(com.begr.escalade.entity.ReservationStatus).EN_ATTENTE}"><a th:href="@{/reservation/terminate(id=${reservation.id })}" class="btn btn-danger">annuler</a></span>
-
                 </td>
             </tr>
             </tbody>
         </table>
+        
+        
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title topoName" id="exampleModalLabel">nom du topo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="small"><span class="dateDemande"></span></p>
+                        <p class="small"><span class="dateEmprunt"></span></p>
+                        <p class="small"><span class="dateRetour"></span></p>
+                        <div class="description">
+                            <p>Nom de l'emprunteur: <span class="emprunteurName"></span></p>
+                            <p>Mail de l'emprunteur: <span class="emprunteurMail"></span></p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    </div>
+                </div>
+            </div>
+        </div><!-- fin modale -->
     </div>
 </div>
 <span th:insert="~{utils/scripts :: scripts}"></span>
 
+<script>
+    $('#myModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Bouton qui a ouvert la modale
+        // On récupère les valeurs data et on les envoie dans les class que l'on veut
+        var data = button.data();
 
+        for(var i in data){
+            console.log(i+" :"+data[i]);
+        }
+
+
+        $(this).find('.dateDemande').text('Demandé le: ' + button.data('datedemande'));
+        $(this).find('.dateEmprunt').text('Accepté le: ' + button.data('dateemprunt'));
+        $(this).find('.dateRetour').text('Retourné le: ' + button.data('dateretour'));
+        $(this).find('.topoName').text(button.data('topo'));
+        $(this).find('.emprunteurName').text(button.data('emprunteurname'));
+        $(this).find('.emprunteurMail').text(button.data('emprunteurmail'));})
+</script>
 
 </body>
 </html>
