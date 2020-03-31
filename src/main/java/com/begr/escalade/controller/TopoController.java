@@ -89,7 +89,7 @@ public class TopoController {
 
     //Traitement du formulaire
     @PostMapping(value="/submitNewTopoForm")
-    public RedirectView submitSecteurForm(Topo theTopo, Principal principal) {
+    public RedirectView submitTopoForm(Topo theTopo, Principal principal) {
         String username = principal.getName();
         User owner = userRepository.findByUsername(username);
         theTopo.setOwner(owner);

@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!--/* Per-page placeholder for additional links */-->
-    <link rel="stylesheet" th:href="@{/css/list.css}"/>
+    <link rel="stylesheet" th:href="@{/css/listImbriquee.css}"/>
 
     <script src="https://kit.fontawesome.com/c27764e901.js" crossorigin="anonymous"></script>
 
@@ -47,12 +47,18 @@
     </div>
     <div th:insert="~{utils/listSecteurs :: listSecteurs}"></div>
 
+    <hr>
+    <h2>Commentaires</h2>
+
 
     <div th:each="theComment: ${site.comments}" class="row">
         <div class="col">
             <p>
                 <span th:text="${theComment.author.username + ': '+ theComment.value}">Texte de commentaire</span>
-
+                <button sec:authorize="hasAuthority('MEMBER')" type="button" class="btn btn-sm btn-primary fas fa-edit" data-toggle="modal"
+                        th:attr="data-commentid=${theComment.id},data-commentvalue=${theComment.value}"
+                           data-target="#myModal"></button>
+                <a th:href="@{/site/commentDelete(id=${theComment.id })}" class="btn btn-sm btn-danger far fa-trash-alt"></a>
             </p>
         </div>
     </div>
@@ -69,12 +75,46 @@
 
 
 <div th:insert="~{utils/scripts :: scripts}"></div>
-<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+<div class="modal fade" tabindex="-1" role="dialog" id="myModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modifier commentaire</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
 
+            <div class="modal-body">
+                <form action="/site/editComment" method="get">
+                    <div class = "form-group row ">
+                        <div class = "col">
+                            <input id="commentValue" type = "text" class="form-control" placeholder="alea jact est" name="commentValue" value="" >
+                        </div>
+                        <div class="col">
+                            <span class="text-danger"> </span>
+                        </div>
+                    </div>
+                    <div class = "form-group row">
+                        <div class = "col">
+                            <input type="hidden" id="commentId" name="commentId" value="">
+                            <button type = "submit" class = "btn btn-primary">Enregistrer</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>
+<script>
+    $('#myModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Bouton qui a ouvert la modale
+        // On récupère les valeurs data et on les envoie dans les class que l'on veut
+        $('#commentId').val(button.data('commentid'));
+        $('#commentValue').val(button.data('commentvalue'));
+    })
+</script>
 </body>
 </html>

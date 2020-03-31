@@ -159,15 +159,27 @@ public class SiteController {
         return new ModelAndView(redirect);
     }
 
-    @PostMapping("/replyComment")
-    public ModelAndView replyCommentAction(Comment theComment, Principal principal) {
-        String username = principal.getName();
-        User author = userRepository.findByUsername(username);
-        theComment.setAuthor(author);
+    @GetMapping("/editComment")
+    public RedirectView editComment(@RequestParam(required = true) Integer commentId, @RequestParam(required = true) String commentValue){
+        Comment theComment = commentRepository.getOne(commentId.longValue());
+        theComment.setValue(commentValue);
+        commentRepository.save(theComment);
+        Integer theSiteId = theComment.getSite().getId().intValue();
 
         RedirectView redirect = new RedirectView();
-        redirect.setUrl("/site/view");
-        redirect.addStaticAttribute("id", theComment.getSite().getId());
-        return new ModelAndView(redirect);
+        redirect.addStaticAttribute("id", theSiteId);
+        redirect.setUrl("view");
+        return redirect;
+    }
+
+    @GetMapping("/commentDelete")
+    public RedirectView deleteCommentItem(@RequestParam(required = true) Integer id) {
+        Comment theComment = commentRepository.getOne(id.longValue());
+        Integer theSiteId = theComment.getSite().getId().intValue();
+        commentRepository.delete(theComment);
+        RedirectView redirect = new RedirectView();
+        redirect.addStaticAttribute("id", theSiteId);
+        redirect.setUrl("view");
+        return redirect;
     }
 }
