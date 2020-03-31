@@ -170,7 +170,4 @@ public class SiteController {
         redirect.addStaticAttribute("id", theComment.getSite().getId());
         return new ModelAndView(redirect);
     }
-
-
-
 }

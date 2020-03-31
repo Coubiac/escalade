@@ -10,7 +10,8 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!--/* Per-page placeholder for additional links */-->
-
+    <link rel="stylesheet" th:href="@{/css/list.css}"/>
+    <link rel="stylesheet" th:href="@{/css/topoList.css}"/>
 
 </head>
 <body>
@@ -18,12 +19,11 @@
     <div th:insert="~{utils/menu :: menu}"></div>
 
     <h1>Liste des topos</h1>
-    <table class="table">
+    <table>
         <thead>
         <tr>
             <th>nom</th>
-            <th>voir</th>
-            <th>Fiche</th>
+            <th>sites</th>
             <th>modifier</th>
             <th>Supprimer</th>
         </tr>
@@ -35,7 +35,6 @@
             <!-- On crée un bouton et on bind les attributs pour pouvoir les récupérer dans le javascript -->
             <td><ul th:each="site: ${topo.sites}"><li th:text="${site.name}"></li></ul> </td>
             <!-- On crée un bouton et on bind les attributs pour pouvoir les récupérer dans le javascript -->
-            <td><a th:href="@{/topo/view(id=${topo.id })}" class="btn btn-primary">Fiche</a></td>
             <td><a th:href="@{/topo/topoItemForm(id=${topo.id })}" class="btn btn-primary">modifier</a></td>
             <td><a th:href="@{/topo/topoDelete(id=${topo.id })}" class="btn btn-danger">supprimer</a></td>
         </tr>

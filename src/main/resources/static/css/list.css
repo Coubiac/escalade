@@ -1,33 +1,63 @@
-/* fonctionnel */
-input {
-    display: none;
+table {
+    width: 100%;
+    border-collapse: collapse;
 }
-input ~ ul {
-    display: none;
+/* Zebra striping */
+tr:nth-of-type(odd) {
+    background: #eee;
 }
-input:checked ~ ul {
-    display: block;
+th {
+    background: #343a40;
+    color: white;
+    font-weight: bold;
 }
-input ~ .fa-angle-double-down {
-    display: none;
-}
-input:checked ~ .fa-angle-double-right {
-    display: none;
-}
-input:checked ~ .fa-angle-double-down {
-    display: inline;
+td, th {
+    padding: 6px;
+    border: 1px solid #ccc;
+    text-align: left;
 }
 
-/* habillage */
-li {
-    display: block;
-    font-family: 'Arial';
-    font-size: 15px;
-    padding: 0.2em;
-    border: 1px solid transparent;
-}
-li:hover {
-    border: 1px solid grey;
-    border-radius: 3px;
-    background-color: lightgrey;
+/*
+Max width before this PARTICULAR table gets nasty
+This query will take effect for any screen smaller than 760px
+and also iPads specifically.
+*/
+@media
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px) {
+
+    /* Force table to not be like tables anymore */
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    /* Hide table headers (but not display: none;, for accessibility) */
+    thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    tr {
+        border: 1px solid #ccc;
+    }
+
+    td {
+        /* Behave  like a "row" */
+        border: none;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 50%;
+    }
+
+    td:before {
+        /* Now like a table header */
+        position: absolute;
+        /* Top/left values mimic padding */
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+    }
 }
