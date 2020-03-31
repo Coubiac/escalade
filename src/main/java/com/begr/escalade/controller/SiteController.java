@@ -4,12 +4,10 @@ import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import com.begr.escalade.entity.Comment;
 import com.begr.escalade.entity.User;
 import com.begr.escalade.repository.CommentRepository;
 import com.begr.escalade.repository.UserRepository;
-import com.begr.escalade.service.LuceneIndexService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,10 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
-
 import com.begr.escalade.entity.Site;
 import com.begr.escalade.repository.SiteRepository;
-
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
@@ -127,7 +123,7 @@ public class SiteController {
     public ModelAndView findSite(@RequestParam(required = false, value = "searchQuery") String searchQuery){
         String viewName= "site/siteList";
 
-        if(searchQuery == null){
+        if(searchQuery.equals("")){
             RedirectView redirect = new RedirectView();
             redirect.setUrl("/site/list");
             return new ModelAndView(redirect);
