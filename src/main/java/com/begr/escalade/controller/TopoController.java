@@ -59,7 +59,9 @@ public class TopoController {
     }
 
     @GetMapping("/topoDelete")
-    public ModelAndView deleteTopoItem(Topo topo) {
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ModelAndView deleteTopoItem(Topo topo , Principal principal) {
+
         topoRepository.delete(topo);
         RedirectView redirect = new RedirectView();
         redirect.setUrl("/topo/list");
@@ -88,6 +90,7 @@ public class TopoController {
     }
 
     //Traitement du formulaire
+    @PreAuthorize("hasAuthority('USER')")
     @PostMapping(value="/submitNewTopoForm")
     public RedirectView submitTopoForm(Topo theTopo, Principal principal) {
         String username = principal.getName();

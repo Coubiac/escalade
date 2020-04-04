@@ -91,6 +91,7 @@ public class SiteController {
 
     //Traitement du formulaire
     @PostMapping("/siteItemForm")
+    @PreAuthorize("hasAuthority('USER')")
     public ModelAndView submitSiteItemForm(@Valid Site site) {
         if (site.getId() != null){
             Site existingItem = siteRepository.getOne(site.getId());
@@ -112,6 +113,7 @@ public class SiteController {
     }
 
     @GetMapping("/siteDelete")
+    @PreAuthorize("hasAuthority('USER')")
     public ModelAndView deleteSiteItem(Site site) {
         siteRepository.delete(site);
         RedirectView redirect = new RedirectView();
@@ -147,6 +149,7 @@ public class SiteController {
 
     //Ajout d'un commentaire
     @PostMapping("/addComment")
+    @PreAuthorize("hasAuthority('USER')")
     public ModelAndView submitCommentItemForm(@Valid Comment theComment, Principal principal) {
         String username = principal.getName();
         User author = userRepository.findByUsername(username);
@@ -160,6 +163,7 @@ public class SiteController {
     }
 
     @GetMapping("/editComment")
+    @PreAuthorize("hasAuthority('MEMBER')")
     public RedirectView editComment(@RequestParam(required = true) Integer commentId, @RequestParam(required = true) String commentValue){
         Comment theComment = commentRepository.getOne(commentId.longValue());
         theComment.setValue(commentValue);
@@ -173,6 +177,7 @@ public class SiteController {
     }
 
     @GetMapping("/commentDelete")
+    @PreAuthorize("hasAuthority('MEMBER')")
     public RedirectView deleteCommentItem(@RequestParam(required = true) Integer id) {
         Comment theComment = commentRepository.getOne(id.longValue());
         Integer theSiteId = theComment.getSite().getId().intValue();

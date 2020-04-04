@@ -35,6 +35,7 @@ public class VoieController {
 
     //affichage du formulaire
     @GetMapping("/voieItemForm")
+    @PreAuthorize("hasAuthority('USER')")
     public String showVoieItemForm(@RequestParam(required = false) Integer id, Model theModel) {
         String viewName= "voie/voieItemForm";
 
@@ -55,6 +56,7 @@ public class VoieController {
 
     //Traitement du formulaire
     @PostMapping(value="/SubmitVoieForm")
+    @PreAuthorize("hasAuthority('USER')")
     public String submitVoieForm(@Valid Voie theVoie, BindingResult theBindingResult, Model model) {
         System.out.println(theVoie.toString());
         if( theBindingResult.hasErrors()){
@@ -70,7 +72,6 @@ public class VoieController {
     }
 
     //Affichage de la liste des voies d'un site
-    @PreAuthorize("hasAuthority('USER')")
     @GetMapping(value="/list")
     public String showVoiesOfOneSecteur(@RequestParam(required = false) Long secteurId, Model model){
         if (secteurId != null){
@@ -85,6 +86,7 @@ public class VoieController {
     }
 
     @GetMapping("/voieDelete")
+    @PreAuthorize("hasAuthority('USER')")
     public RedirectView deleteSiteItem(Voie voie) {
         voieRepository.delete(voie);
         RedirectView redirect = new RedirectView();

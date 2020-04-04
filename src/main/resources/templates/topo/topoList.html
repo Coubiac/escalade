@@ -36,7 +36,8 @@
             <td><ul th:each="site: ${topo.sites}"><li th:text="${site.name}"></li></ul> </td>
             <!-- On crée un bouton et on bind les attributs pour pouvoir les récupérer dans le javascript -->
             <td><a th:href="@{/topo/topoItemForm(id=${topo.id })}" class="btn btn-primary">modifier</a></td>
-            <td><a th:href="@{/topo/topoDelete(id=${topo.id })}" class="btn btn-danger">supprimer</a></td>
+             <td><a th:href="@{/topo/topoDelete(id=${topo.id })}" class="btn btn-danger">supprimer</a></td>
+
         </tr>
 
         </tbody>

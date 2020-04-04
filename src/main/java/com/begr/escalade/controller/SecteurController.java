@@ -28,6 +28,7 @@ public class SecteurController {
 
     //affichage du formulaire
     @GetMapping("/secteurItemForm")
+    @PreAuthorize("hasAuthority('USER')")
     public String showSecteurItemForm(@RequestParam(required = false) Integer id, Model theModel) {
         String viewName= "secteur/secteurItemForm";
 
@@ -45,6 +46,7 @@ public class SecteurController {
 
     //Traitement du formulaire
     @PostMapping(value="/SubmitSecteurForm")
+    @PreAuthorize("hasAuthority('USER')")
     public String submitSecteurForm(@Valid Secteur theSecteur, BindingResult theBindingResult, Model model) {
         if( theBindingResult.hasErrors()){
             model.addAttribute("errors", theBindingResult.getAllErrors());
@@ -59,7 +61,6 @@ public class SecteurController {
     }
 
     //Affichage de la liste des secteurs d'un site
-    @PreAuthorize("hasAuthority('USER')")
     @GetMapping(value="/list")
     public String showSecteursOfOneSite(@RequestParam(required = false) Long siteId, Model model){
         if (siteId != null){
@@ -74,6 +75,7 @@ public class SecteurController {
     }
 
     @GetMapping("/secteurDelete")
+    @PreAuthorize("hasAuthority('MEMBER')")
     public RedirectView deleteSiteItem(Secteur secteur) {
         secteurRepository.delete(secteur);
         RedirectView redirect = new RedirectView();

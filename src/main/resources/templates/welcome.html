@@ -17,8 +17,13 @@
   <div th:insert="~{utils/menu :: menu}"></div>
 
   <h1>Bienvenue sur l'application d'escalade</h1>
-  Logged user: <span sec:authentication="name">Bob</span>
-  Roles: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>
+  <div th:if="${#request.userPrincipal}">
+  Bienvenue <span sec:authentication="name">Bob</span>
+  Vous aves les role: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>
+  </div>
+  <div th:if="!${#request.userPrincipal}">
+    Bienvenue visiteur, nous n'êtes pas encore connecté.
+  </div>
 </div>
 <span th:insert="~{utils/scripts :: scripts}"></span>
 </body>

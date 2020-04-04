@@ -34,6 +34,7 @@ public class LongueurController {
 
     //affichage du formulaire
     @GetMapping("/longueurItemForm")
+    @PreAuthorize("hasAuthority('USER')")
     public String showLongueurItemForm(@RequestParam(required = false) Integer id, Model theModel) {
         String viewName= "longueur/longueurItemForm";
 
@@ -53,6 +54,7 @@ public class LongueurController {
 
     //Traitement du formulaire
     @PostMapping(value="/SubmitLongueurForm")
+    @PreAuthorize("hasAuthority('USER')")
     public String submitLongueurForm(@Valid Longueur theLongueur, BindingResult theBindingResult, Model model) {
         if( theBindingResult.hasErrors()){
             model.addAttribute("errors", theBindingResult.getAllErrors());
@@ -82,6 +84,7 @@ public class LongueurController {
     }
 
     @GetMapping("/longueurDelete")
+    @PreAuthorize("hasAuthority('MEMBER')")
     public RedirectView deleteLongueurItem(Longueur longueur) {
         longueurRepository.delete(longueur);
         RedirectView redirect = new RedirectView();
