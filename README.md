@@ -24,3 +24,11 @@ Un fichier ````war```` sera généré dans le dossier ````target````
 
 Ce fichier peut être déployé sur un serveur TOMCAT.
 
+### Données de test
+
+Un jeu de données de test est présent dans le fichier ```data.sql```
+Il y a deux utilisateurs:
+
+user: member, pass: Pass1234
+
+user: simpleUser, pass: Pass1234
