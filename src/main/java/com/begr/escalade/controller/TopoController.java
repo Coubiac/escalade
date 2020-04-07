@@ -38,16 +38,6 @@ public class TopoController {
     SiteRepository siteRepository;
 
 
-    @GetMapping("/list")
-    public String getTopoList(Model model) {
-
-        String viewName= "topo/topoList";
-        List<Topo> topos = topoRepository.findAll();
-        model.addAttribute("topos", topos);
-        return viewName;
-
-    }
-
     @GetMapping("/myTopos")
     public String getMyTopos (Model model, Principal principal) {
         String username = principal.getName();
@@ -64,7 +54,7 @@ public class TopoController {
 
         topoRepository.delete(topo);
         RedirectView redirect = new RedirectView();
-        redirect.setUrl("/topo/list");
+        redirect.setUrl("/topo/myTopos");
         return new ModelAndView(redirect);
     }
 
@@ -98,7 +88,7 @@ public class TopoController {
         theTopo.setOwner(owner);
         topoRepository.save(theTopo);
         RedirectView redirect = new RedirectView();
-        redirect.setUrl("list");
+        redirect.setUrl("myTopos");
         return redirect;
     }
 

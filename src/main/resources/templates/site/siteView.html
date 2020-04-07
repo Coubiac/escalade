@@ -58,18 +58,20 @@
                 <button sec:authorize="hasAuthority('MEMBER')" type="button" class="btn btn-sm btn-primary fas fa-edit" data-toggle="modal"
                         th:attr="data-commentid=${theComment.id},data-commentvalue=${theComment.value}"
                            data-target="#myModal"></button>
-                <a th:href="@{/site/commentDelete(id=${theComment.id })}" class="btn btn-sm btn-danger far fa-trash-alt"></a>
+                <a sec:authorize="hasAuthority('MEMBER')" th:href="@{/site/commentDelete(id=${theComment.id })}" class="btn btn-sm btn-danger far fa-trash-alt"></a>
             </p>
         </div>
     </div>
 
-    <div class="row">
+    <div sec:authorize="hasAuthority('USER')" class="row">
         <div class="col">
             <h2>Ajouter un commentaire</h2>
         </div>
-    </div>
 
-    <div th:insert="~{utils/CommentForm :: commentForm}"></div>
+    </div>
+    <div sec:authorize="hasAuthority('USER')" th:insert="~{utils/CommentForm :: commentForm}"></div>
+
+
 </div>
 
 

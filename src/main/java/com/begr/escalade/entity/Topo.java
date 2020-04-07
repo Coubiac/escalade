@@ -17,7 +17,7 @@ public class Topo {
 
     private String Description;
 
-    private Boolean disponible;
+    private Boolean disponible = false;
 
     @NotNull
     @ManyToOne(targetEntity = User.class)

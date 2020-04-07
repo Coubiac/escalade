@@ -24,7 +24,10 @@ public class TopoRepositoryImpl implements TopoRepositoryCustom {
 
     @Override
     public List<Topo> findAllDispo(Integer userId) {
-        String requete = "SELECT * FROM topos WHERE topos.id NOT IN (SELECT topo_id FROM reservations WHERE reservations.status = 'EN_COURS') AND topos.owner_id <> :userId";
+        String requete = "SELECT * FROM topos WHERE " +
+                "topos.disponible = 1 " +
+                "AND topos.id NOT IN (SELECT topo_id FROM reservations WHERE reservations.status = 'EN_COURS') " +
+                "AND topos.owner_id <> :userId";
         Query query = entityManager.createNativeQuery(requete, Topo.class);
         query.setParameter("userId", userId);
         return query.getResultList();
