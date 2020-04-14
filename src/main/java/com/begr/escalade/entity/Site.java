@@ -48,7 +48,7 @@ public class Site extends Auditable<String> {
     @Analyzer(definition = "customanalyzer")
     private String description;
 
-    private Boolean officiel;
+    private Boolean officiel = false;
 
     private String access;
 
@@ -86,10 +86,6 @@ public class Site extends Auditable<String> {
         this.description = description;
     }
 
-    public Boolean isOfficiel() { return officiel; }
-
-    public void setOfficiel(Boolean officiel) { this.officiel = officiel; }
-
     public String getAccess() {
         return access;
     }
@@ -120,6 +116,11 @@ public class Site extends Auditable<String> {
         return officiel;
     }
 
+
+    public void setOfficiel(Boolean officiel) {
+        this.officiel = officiel;
+    }
+
     public List<Comment> getComments() {
         return comments;
     }
@@ -142,6 +143,8 @@ public class Site extends Auditable<String> {
     public void setTopos(List<Topo> topos) {
         this.topos = topos;
     }
+
+
 
     @PrePersist
     @PreUpdate

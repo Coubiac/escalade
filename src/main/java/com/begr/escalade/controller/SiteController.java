@@ -101,6 +101,7 @@ public class SiteController {
             else {
                 existingItem.setName(site.getName());
                 existingItem.setDescription(site.getDescription());
+                existingItem.setOfficiel(site.getOfficiel());
                 siteRepository.save(existingItem);
             }
         }
