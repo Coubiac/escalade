@@ -69,7 +69,6 @@ public class LongueurController {
     }
 
     //Affichage de la liste des longueurs d'un site
-    @PreAuthorize("hasAuthority('USER')")
     @GetMapping(value="/list")
     public String showLongueursOfOneVoie(@RequestParam(required = false) Long voieId, Model model){
         if (voieId != null){
